@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Доска объявлений</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Шапка -->
+<header>
+    <div class="container">
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="images/logo.jpg" alt="Логотип" class="logo-icon" onerror="this.style.display='none'">
+                <a href="index.html" class="logo">Объявления</a>
+            </div>
+            <div class="header-actions">
+                <div class="auth-links">
+                    <a href="#" id="register-link">Регистрация</a>
+                    <a href="#" id="login-link">Вход</a>
+                </div>
+                <!-- Блок приветствия (скрыт по умолчанию) -->
+                <div class="user-greeting" id="user-greeting" style="display: none;">
+                    <div class="greeting-text">
+                        Здравствуйте, <span class="username" id="username">Константин</span>
+                    </div>
+                    <button class="btn-logout" id="logout-btn">Выход</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Основной контент -->
+<main class="container">
+    <div class="page-header">
+        <h1 class="page-title">Новые объявления</h1>
+        <a href="add-ad.html" class="add-ad-btn">+ Добавить объявление</a>
+    </div>
+
+    <div class="ads-grid" id="ads-container">
+    </div>
+
+    <div class="load-more">
+        <button class="btn" id="load-more-btn">Показать еще</button>
+    </div>
+</main>
+
+<!-- Подвал -->
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-left">
+        <p class="footer-email">info@gmail.com</p>
+      </div>
+
+      <div class="footer-right">
+        <p class="footer-dev">Информация о разработчике</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Модальное окно авторизации/регистрации -->
+<div class="modal" id="auth-modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <span class="close-modal" id="close-modal" aria-label="Закрыть">&times;</span>
+
+        <div class="form-tabs" role="tablist" aria-label="Формы">
+            <div class="form-tab" id="tab-register" role="tab" aria-controls="register-form">Регистрация</div>
+            <div class="form-tab active" id="tab-auth" role="tab" aria-controls="auth-form">Авторизация</div>
+        </div>
+
+        <!-- === Фрагмент: Авторизация === -->
+        <div class="form-container active" id="auth-form" role="tabpanel" aria-labelledby="tab-auth">
+            <div class="auth-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                <div class="form-group">
+                    <label for="auth-email">E-mail</label>
+                    <input type="email" id="auth-email" class="form-control" placeholder="Email" autocomplete="username">
+                    <div class="error-message" id="auth-email-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="auth-password">Пароль</label>
+                    <input type="password" id="auth-password" class="form-control" placeholder="Пароль" autocomplete="current-password">
+                    <div class="error-message" id="auth-password-error"></div>
+                </div>
+            </div>
+
+            <!-- Кнопка: по умолчанию неактивная -->
+            <div style="margin-top: 18px;">
+                <button id="auth-submit" class="btn-primary disabled" disabled>Войти</button>
+            </div>
+
+            <!-- Нижний текст -->
+            <div class="form-footer" style="margin-top: 18px;">
+                <p class="muted-note">Все поля обязательны для заполнения</p>
+            </div>
+        </div>
+
+        <!-- === Регистрация === -->
+        <div class="form-container" id="register-form" role="tabpanel" aria-labelledby="tab-register">
+            <div class="register-row" style="display: grid; grid-template-columns: 1fr 1fr; gap:14px;">
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label for="reg-name">Ваше имя</label>
+                    <input id="reg-name" class="form-control" type="text" placeholder="Ваше имя" autocomplete="name">
+                    <div class="error-message" id="reg-name-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-email">Email</label>
+                    <input id="reg-email" class="form-control" type="email" placeholder="Email" autocomplete="email">
+                    <div class="error-message" id="reg-email-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-phone">Мобильный телефон</label>
+                    <input id="reg-phone" class="form-control" type="tel" placeholder="Мобильный телефон" autocomplete="tel">
+                    <div class="error-message" id="reg-phone-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-password">Пароль</label>
+                    <input id="reg-password" class="form-control" type="password" placeholder="Пароль" autocomplete="new-password">
+                    <div class="error-message" id="reg-password-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-password-confirm">Повторите пароль</label>
+                    <input id="reg-password-confirm" class="form-control" type="password" placeholder="Повторите пароль" autocomplete="new-password">
+                    <div class="error-message" id="reg-password-confirm-error"></div>
+                </div>
+            </div>
+
+            <div class="checkbox-group" style="margin-top:12px;">
+                <input type="checkbox" id="reg-agreement">
+                <label for="reg-agreement" style="margin:0;">Согласен на обработку <a href="#" style="color:#FF006B;">персональных данных</a></label>
+                <div class="error-message" id="reg-agreement-error"></div>
+            </div>
+
+            <!-- Кнопка регистрации-->
+            <div style="margin-top:18px;">
+                <button id="reg-submit" class="btn-primary disabled" disabled>Зарегистрироваться</button>
+            </div>
+
+            <!-- Нижний текст -->
+            <div class="form-footer" style="margin-top:18px;">
+                <p class="muted-note">Все поля обязательны для заполнения</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Менеджеры и данные -->
+<script src="js/ads-data.js"></script>
+<script src="js/ads-manager.js"></script>
+
+<!-- Создание и инициализация authManager -->
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+
+<!-- Интерфейс и логика -->
+<script src="js/modal.js"></script>
+<script src="js/validation.js"></script>
+<script src="js/header.js"></script>
+
+<!-- Главная страница: отображение объявлений -->
+<script src="js/main.js"></script>
+
+</body>
+</html>
